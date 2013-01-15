@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/de/unihl/algo/three_sat_crititcal_number/CNFFormula.java
 package de.unihl.algo.three_sat_crititcal_number;
 
 import java.util.Random;
@@ -15,6 +16,10 @@ public class CNFFormula {
 	 * The values for all the variables
 	 */
 	private Vector<Boolean> setting;
+	/**
+	 * Buffer for the construction of random CNFFormular
+	 */
+	private static Vector<Integer> randomVarBuffer;
 	
 	/**
 	 * Checks if the CNF formula is valid
@@ -71,11 +76,49 @@ public class CNFFormula {
 	public void setValues(Vector<Boolean> values) {
 		setting = values;
 	}
-
-
-	public static CNFFormula generateRandom(int n, int m, int k) {
-		// TODO riv333 please code here
-		return null;
+	
+	/**
+	 * Creates a random CNF-Formula
+	 * @param type Distribution type ([i])
+	 * @param num_clauses Number of clauses (m)
+	 * @param num_literals Number of literals of one clause (k)
+	 */
+	public void randomizeFormula(int type, int num_variables ,int num_clauses,int num_literals){
+		initRandomVarBuffer(num_variables);		
+		
+		if (type != 1 && num_literals<randomVarBuffer.size()) return;
+		Random r = new Random();
+		Vector<Integer> removedVars = new Vector<Integer>();
+		
+		for (int i=0; i<num_clauses; i++){
+			Vector<Integer> clause = new Vector<Integer>();
+			for (int j=0; j<num_literals; j++){
+				Integer index = r.nextInt(randomVarBuffer.size());
+				Integer varID = randomVarBuffer.get(index);
+				clause.add(-r.nextInt(2)*varID);
+				if (type != 1){
+					randomVarBuffer.remove(index);
+					removedVars.add(varID);					
+				}
+			}
+			formula.add(clause);
+			if (type != 1) randomVarBuffer.addAll(removedVars);
+		}
+	}
+	
+	/**
+	 * Must called always, when the number of different variables changes
+	 * (Usually one call at start of the program).
+	 * @param num_vars number of different variables
+	 */
+	static public void initRandomVarBuffer(int num_vars)
+	{
+		if ( randomVarBuffer == null) {
+			CNFFormula.randomVarBuffer.clear();
+			for (int i=0; i<num_vars; i++){
+				CNFFormula.randomVarBuffer.add(i);
+			}
+		}
 	}
 
 }

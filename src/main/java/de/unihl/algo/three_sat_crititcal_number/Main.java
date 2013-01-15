@@ -52,7 +52,6 @@ public class Main {
 		}
 		// n = n_max at this point
 		
-		stopWatchTest();
 	}
 	
 	private static int getBestM(Map<Integer, Double> sigmas, int n) {
@@ -70,26 +69,6 @@ public class Main {
 		
 		log.info("Best m for n="+n+" is "+bestM+" with sigma_m="+bestValue);
 		return bestM;
-	}
-
-	private static void stopWatchTest() throws InterruptedException {
-		// nachdem das durchgelaufen ist schaut mal in euren Projekt-Ordner.
-		// in die Dateien perfStats.log und PerfGraphs.log (die erste URL mal aufrufen)
-		for (int i = 0; i < 50; i++) {
-            // By default the Log4JStopWatch uses the Logger named org.perf4j.TimingLogger
-            StopWatch stopWatch = new Log4JStopWatch();
-            log.error("go");
-            // for demo purposes just sleep
-            Thread.sleep((long) (Math.random() * 500L));
-
-            // Calling lap() stops timing for the previous block, sends the
-            // message to the log4j Logger, and starts timing the next block.
-            stopWatch.lap("firstBlock");
-            log.error("on");
-            Thread.sleep((long) (Math.random() * 1000L));
-
-            stopWatch.stop("secondBlock");
-        }
 	}
 
 }

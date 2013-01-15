@@ -14,9 +14,9 @@ public class CNFFormula {
 	/**
 	 * The values for all the variables
 	 */
-	private Vector<Boolean> setting;
+	private Vector<Boolean> assignment;
 	/**
-	 * The number of variables in a clause
+	 * The number of literals in a clause
 	 */
 	private int k;
 	
@@ -24,8 +24,8 @@ public class CNFFormula {
 	/**
 	 * Creates a new CNFformula which is different to Vector<Vector<Integer>> formula which is just a datatype of a formula
 	 * 
-	 * @param formula the k-cnf consists of m clauses each containing k variables
-	 * @param k the number of variables in a clause
+	 * @param formula the k-cnf consists of m clauses each containing k literals
+	 * @param k the number of literals in a clause
 	 */
 	public CNFFormula(Vector<Vector<Integer>> formula, int k) {
 		this.formula = formula;
@@ -48,8 +48,10 @@ public class CNFFormula {
 		// current 
 		boolean satisfied = false;
 		
+		// each clause
 		for ( int i=0; i<formula.size(); i++ ){
 			Vector<Integer> term = formula.get(i);
+			// each literal
 			for (int g = 0; g < this.k; g++){
 				satisfied = satisfied || getValue(term.get(g));
 			}
@@ -71,13 +73,7 @@ public class CNFFormula {
 	 * @return
 	 */
 	private Boolean getValue(int index){
-		boolean result = false;
-		if (index > 0){
-			result = setting.get(index);
-		} else {
-			result = !setting.get(index * -1);
-		}
-		return result;
+		return index > 0 ? assignment.get(index) : !assignment.get(index * -1);
 	}
 	
 	/**
@@ -86,12 +82,54 @@ public class CNFFormula {
 	 * @param indexVar
 	 */
 	public void toggleValue(int indexClause, int indexVar) {
-		int indexVarToChange = formula.get(indexClause).get(indexVar);
-		setting.set(indexVarToChange, !setting.get(indexVarToChange));
+		int indexVarToChange = Math.abs(formula.get(indexClause).get(indexVar));
+		assignment.set(indexVarToChange, !assignment.get(indexVarToChange));
 	}
 	
 	public void setValues(Vector<Boolean> values) {
-		setting = values;
+		assignment = values;
+	}
+	
+	public Vector<Boolean> getValues() {
+		return assignment;
+	}
+	
+	@Override
+	public String toString() {
+		String res = "";
+		
+		//each clause
+		for (Vector<Integer> clause : formula) {
+			res += "(";
+			
+			// each variable
+			for (Integer i : clause) {
+				res += i<0 ? "¬" : "";
+				res += "x" + toSubscriptNumberString(Math.abs(i));
+				res += "\u2228"; // or
+			}
+			res = res.substring(0, res.length()-1); // remove last postfix
+			
+			res += ")\u2227"; // and
+		}
+		res = res.substring(0, res.length()-1); // remove last postfix
+		return res;
+	}
+	
+	private String toSubscriptNumberString(int n) {
+		char subscripts[] = new char[10];
+		int i=0;
+		for (char c = '\u2080'; c <= '\u2089'; c++) {
+		    subscripts[i] = c;
+		    i++;
+		}
+		String res = "";
+		String num = String.valueOf(n);
+		for (i=0; i<num.length(); i++) {
+			res += subscripts[Integer.parseInt(num.substring(i, i+1))];
+		}
+		
+		return res;
 	}
 
 

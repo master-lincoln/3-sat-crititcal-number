@@ -1,6 +1,8 @@
 *.class
+*.log
 .settings
 bin
+
 # Package Files #
 *.jar
 *.war

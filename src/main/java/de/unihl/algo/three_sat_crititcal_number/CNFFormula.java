@@ -72,4 +72,10 @@ public class CNFFormula {
 		setting = values;
 	}
 
+
+	public static CNFFormula generateRandom(int n, int m, int k) {
+		// TODO riv333 please code here
+		return null;
+	}
+
 }

@@ -6,11 +6,9 @@ import java.util.Vector;
 public class RandomSATSolver {
 
 	private static CNFFormula formula;
-	private static int n;
 
-	public static void init(CNFFormula _formula, int _n) {
+	public static void init(CNFFormula _formula, int n) {
 		formula = _formula;
-		n = _n;
 		// set new values for all variables in the formulas setting
 		Vector<Boolean> setting = new Vector<Boolean>();
 		Random random = new Random();
@@ -20,7 +18,7 @@ public class RandomSATSolver {
 		formula.setValues(setting);
 	}
 	
-	public static Boolean isSatisfiable(CNFFormula _formula, int _n){
+	public static Boolean isSatisfiable(CNFFormula _formula, int n){
 		init(formula, n);
 		int k = formula.getK();
 		int clause = 0;

@@ -15,7 +15,28 @@ public class CNFFormula {
 	 * The values for all the variables
 	 */
 	private Vector<Boolean> setting;
+	/**
+	 * The number of variables in a clause
+	 */
+	private int k;
 	
+	
+	/**
+	 * Creates a new CNFformula which is different to Vector<Vector<Integer>> formula which is just a datatype of a formula
+	 * 
+	 * @param formula the k-cnf consists of m clauses each containing k variables
+	 * @param k the number of variables in a clause
+	 */
+	public CNFFormula(Vector<Vector<Integer>> formula, int k) {
+		this.formula = formula;
+		this.k = k;
+	}
+	
+	public int getK(){
+		return this.k;
+	}
+
+
 	/**
 	 * Checks if the CNF formula is valid
 	 * @return -1 if settings satifies the formula, or a random index of an unsatified clause
@@ -29,8 +50,9 @@ public class CNFFormula {
 		
 		for ( int i=0; i<formula.size(); i++ ){
 			Vector<Integer> term = formula.get(i);
-			// TODO dynamisch das k nicht fest 3 wie hier
-			satisfied = getValue(term.get(0)) || getValue(term.get(1)) || getValue(term.get(2));
+			for (int g = 0; g < this.k; g++){
+				satisfied = satisfied || getValue(term.get(g));
+			}
 			if (!satisfied){
 				falseTerms.add(i);
 			}

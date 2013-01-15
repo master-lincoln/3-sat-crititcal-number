@@ -5,7 +5,12 @@ import java.util.Vector;
 
 public class RandomSATSolver {
 
-	public static boolean isSatisfiable(CNFFormula formula, int n) {
+	private CNFFormula formula;
+	private int n;
+
+	public void RandomSatSolver(CNFFormula _formula, int _n) {
+		formula = _formula;
+		n = _n;
 		// set new values for all variables in the formulas setting
 		Vector<Boolean> setting = new Vector<Boolean>();
 		Random random = new Random();
@@ -13,21 +18,24 @@ public class RandomSATSolver {
 			setting.set(i, random.nextBoolean());
 		}
 		formula.setValues(setting);
-		
+	}
+	
+	public Boolean checkSatisfieable(){
+		int k = formula.getK();
 		int clause = 0;
-		boolean result = false;
-		for (int i = 0;i < 3*n;i++){
-			//first check if the setting satisfies the problem, else get a clause which is invalid
+		Random random = new Random();
+		Boolean result = false;
+		for (int i = 0;i < k*n;i++){
+			//first check if the setting satisfies the problem, else get a random clause which is invalid
 			clause = formula.checkValid();
 			if (clause > -1){
-				//some clause is invalid
-				
+				//some clause is invalid, so change a random variable in a random clause (clause is given by the CNFFormula as a return value)
+				formula.toggleValue(clause, random.nextInt(k));
 			} else {
 				result = true;
 				break;
 			}
 		}
 		return result;
-
 	}
 }

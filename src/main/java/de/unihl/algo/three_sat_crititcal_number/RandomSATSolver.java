@@ -5,10 +5,10 @@ import java.util.Vector;
 
 public class RandomSATSolver {
 
-	private CNFFormula formula;
-	private int n;
+	private static CNFFormula formula;
+	private static int n;
 
-	public void RandomSatSolver(CNFFormula _formula, int _n) {
+	public static void init(CNFFormula _formula, int _n) {
 		formula = _formula;
 		n = _n;
 		// set new values for all variables in the formulas setting
@@ -20,7 +20,8 @@ public class RandomSATSolver {
 		formula.setValues(setting);
 	}
 	
-	public Boolean checkSatisfieable(){
+	public static Boolean isSatisfiable(CNFFormula _formula, int _n){
+		init(formula, n);
 		int k = formula.getK();
 		int clause = 0;
 		Random random = new Random();

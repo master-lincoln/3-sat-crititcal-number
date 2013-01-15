@@ -2,6 +2,7 @@
 *.log
 .settings
 bin
+target
 
 # Package Files #
 *.jar

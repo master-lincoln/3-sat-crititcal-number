@@ -30,6 +30,8 @@ public class CNFFormula {
 	public CNFFormula(Vector<Vector<Integer>> formula, int k) {
 		this.formula = formula;
 		this.k = k;
+		
+		assert(formula.get(0).size() == k);
 	}
 	
 	public int getK(){

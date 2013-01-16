@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/main/java/de/unihl/algo/three_sat_crititcal_number/CNFFormula.java
 package de.unihl.algo.three_sat_crititcal_number;
 
 import java.util.Random;

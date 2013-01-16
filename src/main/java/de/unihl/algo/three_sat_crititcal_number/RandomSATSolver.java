@@ -3,31 +3,43 @@ package de.unihl.algo.three_sat_crititcal_number;
 import java.util.Random;
 import java.util.Vector;
 
-public class RandomSATSolver {
+import org.apache.log4j.Logger;
 
-	public static boolean isSatisfiable(CNFFormula formula, int n) {
+public class RandomSATSolver {
+	
+	private static final Logger log = Logger.getLogger(RandomSATSolver.class);
+
+	private static void init(CNFFormula formula, int n) {
 		// set new values for all variables in the formulas setting
-		Vector<Boolean> setting = new Vector<Boolean>();
+		Vector<Boolean> assignment = new Vector<Boolean>();
 		Random random = new Random();
-		for (int i = 0; i < n; i++) {
-			setting.set(i, random.nextBoolean());
-		}
-		formula.setValues(setting);
 		
+		for (int i = 0; i < n; i++) {
+			assignment.add(random.nextBoolean());
+		}
+		formula.setValues(assignment);
+	}
+	
+	public static Boolean isSatisfiable(CNFFormula formula, int n){
+		init(formula, n);
+		int k = formula.getK();
 		int clause = 0;
-		boolean result = false;
-		for (int i = 0;i < 3*n;i++){
-			//first check if the setting satisfies the problem, else get a clause which is invalid
+		Random random = new Random();
+		Boolean result = false;
+		
+		for (int i = 0;i < k*n;i++){
+			// check if the assignment satisfies the problem, else get a random clause which is invalid
 			clause = formula.checkValid();
+			//some clause is invalid
 			if (clause > -1){
-				//some clause is invalid
-				
+				//change a random variable from a random invalid clause
+				formula.toggleValue(clause, random.nextInt(k));
 			} else {
+				log.trace( formula+" is satisfied with assignment "+formula.getValues() );
 				result = true;
 				break;
 			}
 		}
 		return result;
-
 	}
 }

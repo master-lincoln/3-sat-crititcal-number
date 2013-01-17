@@ -1,5 +1,6 @@
 package de.unihl.algo.three_sat_crititcal_number;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -15,7 +16,7 @@ public class CNFFormula {
 	/**
 	 * Buffer for the construction of random CNFFormular
 	 */
-	private static Vector<Integer> randomVarBuffer = new Vector<Integer>();
+	private static List<Integer> randomVarBuffer = new Vector<Integer>();
 
 	/**
 	 * The values for all the variables
@@ -162,8 +163,8 @@ public class CNFFormula {
 		for (int i=0; i<num_clauses; i++){
 			Vector<Integer> clause = new Vector<Integer>();
 			for (int j=0; j<k; j++){
-				Integer index = r.nextInt(randomVarBuffer.size());
-				Integer varID = randomVarBuffer.get(index);
+				int index = r.nextInt(randomVarBuffer.size());
+				int varID = randomVarBuffer.get(index);
 				int hvarID = varID; 
 				if (r.nextInt(2)==0) hvarID = -hvarID;
 				clause.add(hvarID);
@@ -173,7 +174,10 @@ public class CNFFormula {
 				}
 			}
 			formula.add(clause);
-			if (type != 1) randomVarBuffer.addAll(removedVars);
+			if (type != 1) {
+				randomVarBuffer.addAll(removedVars);
+				removedVars.clear();
+			}
 		}
 	}
 	

@@ -10,12 +10,12 @@ public class CNFFormula {
 	 * a formula consists of clauses which again consist of indices of variables
 	 * (which are negative if negated in the formula)
 	 */
-	private Vector<Vector<Integer>> formula;
+	private Vector<Vector<Integer>> formula = new Vector<Vector<Integer>>();
 
 	/**
 	 * Buffer for the construction of random CNFFormular
 	 */
-	private static Vector<Integer> randomVarBuffer;
+	private static Vector<Integer> randomVarBuffer = new Vector<Integer>();
 
 	/**
 	 * The values for all the variables
@@ -189,18 +189,15 @@ public class CNFFormula {
 	 */
 	static public void initRandomVarBuffer(int num_vars)
 	{
-		boolean doResetBuffer = false;
-		if (randomVarBuffer != null){
-			if (randomVarBuffer.size() != num_vars){
-				doResetBuffer = true;
-			}
+		if (randomVarBuffer.size() != num_vars){
+				CNFFormula.randomVarBuffer.clear();
 		}
-		if ( randomVarBuffer == null || doResetBuffer) {
-			CNFFormula.randomVarBuffer.clear();
+		if ( randomVarBuffer.isEmpty()) {
+			
 			for (int i=1; i<num_vars+1; i++){
 				CNFFormula.randomVarBuffer.add(i);
 			}
 		}
 	}
-
 }
+

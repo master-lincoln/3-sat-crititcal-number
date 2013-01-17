@@ -45,24 +45,39 @@ public class RandomSATSolverTest {
 	}
 	
 	@Test
-	void testIsFormularCorrect(){
+	public void testIsFormularCorrect(){
 		final int k = 3;
 		
 		CNFFormula cnff = new CNFFormula(k);
 		
-		final int type = 1;
+		int type = 1;
 		final int num_vars = 50;
 		final int num_clauses = 5;
 		
 		cnff.randomizeFormula(type, num_vars, num_clauses);
 		Vector<Vector<Integer>> form = cnff.getFormula();
+		System.out.println(form);
 		
 		boolean iscorrect = (form.size()==5);
 		for (int i=0; i<num_clauses; i++){
 			iscorrect &= (form.get(i).size()==k);
 		}
+		
+		
+		
+		type = 2;
+		cnff.randomizeFormula(type, num_vars, num_clauses);
+		form = cnff.getFormula();
+		System.out.println(form);
+		
+		iscorrect &= (form.size()==5);
+		for (int i=0; i<num_clauses; i++){
+			iscorrect &= (form.get(i).size()==k);
+		}
+		
 		assertTrue(iscorrect);
 		
 	}
+
 
 }

@@ -26,7 +26,7 @@ public class RandomSATSolver {
 		Boolean result = false;
 		int restarts = 0;
 		
-		while ( !result && restarts < 20 ) {
+		while ( !result && restarts < 40 ) {
 			init(formula, n);
 			for (int i = 0;i < 3*n;i++){
 				// check if the assignment satisfies the problem, else get a random clause which is invalid

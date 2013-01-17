@@ -28,13 +28,13 @@ public class Main {
 			t_avg = 0;
 			
 			// TODO more clever testing of m
-			for (int m=1; m<101; m++) {
-				StopWatch avgStopWatch = new Log4JStopWatch("full.m="+m);
+			for (int m=40; m<80; m++) {
+				StopWatch avgStopWatch = new Log4JStopWatch("full.n="+n+".m="+m);
 				int satisfieable = 0;
 				
 				// 100 times
 				for (int i=0;i<100;i++) {
-					StopWatch stopWatch = new Log4JStopWatch("m="+m);
+					StopWatch stopWatch = new Log4JStopWatch("n="+n+".m="+m);
 					
 					CNFFormula formula = new CNFFormula(k);
 					formula.randomizeFormula(1, n, m);

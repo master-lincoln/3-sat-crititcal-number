@@ -54,26 +54,41 @@ public class RandomSATSolverTest {
 		final int num_vars = 10;
 		final int num_clauses = 5;
 		
-		cnff.randomizeFormula(type, num_vars, num_clauses);
-		Vector<Vector<Integer>> form = cnff.getFormula();
-		System.out.println(form);
+		boolean iscorrect = true;
 		
-		boolean iscorrect = (form.size()==5);
-		for (int i=0; i<num_clauses; i++){
-			iscorrect &= (form.get(i).size()==k);
-		}
-		
-		type = 2;
-		for (int j=0; j<100; j++){
+		//10000 Formeln vom Typ 1 (1. Verteilung) erstellen und testen ob korrekt
+		for (int j=0; j<10000; j++){
 			cnff.randomizeFormula(type, num_vars, num_clauses);
-			form = cnff.getFormula();
-			System.out.println(form);
-			
-			iscorrect &= (form.size()==5);
+			Vector<Vector<Integer>> form = cnff.getFormula();
+	
+			iscorrect = (form.size()==5);
 			for (int i=0; i<num_clauses; i++){
 				iscorrect &= (form.get(i).size()==k);
 			}
 		}
+		
+		type = 2;
+		//10000 Formeln vom Typ 2 (2. Verteilung) erstellen und testen ob korrekt
+		for (int j=0; j<10000; j++){
+			cnff.randomizeFormula(type, num_vars, num_clauses);
+			Vector<Vector<Integer>> form = cnff.getFormula();
+			
+			iscorrect &= (form.size()==5);
+			for (int i=0; i<num_clauses; i++){
+				int clause_size = form.get(i).size();
+				iscorrect &= (clause_size==k);
+				for (int x=0; x<clause_size; x++){
+					for (int y=x+1; y<clause_size; y++){
+						if (form.get(i).get(x).equals(form.get(i).get(y))){
+							iscorrect = false;
+							break;
+						}
+					}
+				}
+			}
+		
+		}
+		
 		
 		assertTrue(iscorrect);
 		

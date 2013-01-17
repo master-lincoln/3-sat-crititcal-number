@@ -58,15 +58,14 @@ public class CNFFormula {
 		int result = -1;
 		// indices of unsatisfied clauses
 		Vector<Integer> falseTerms = new Vector<Integer>();
-		// current 
-		boolean satisfied = false;
 		
 		// each clause
 		for ( int i=0; i<formula.size(); i++ ){
-			Vector<Integer> term = formula.get(i);
+			boolean satisfied = false;
+			Vector<Integer> clause = formula.get(i);
 			// each literal
 			for (int g = 0; g < this.k; g++){
-				satisfied = satisfied || getValue(term.get(g));
+				satisfied = satisfied || getValue(clause.get(g));
 			}
 			if (!satisfied){
 				falseTerms.add(i);
@@ -86,7 +85,9 @@ public class CNFFormula {
 	 * @return
 	 */
 	private Boolean getValue(int index){
-		return index > 0 ? assignment.get(index) : !assignment.get(index * -1);
+		if ( index==0 ) throw new UnsupportedOperationException("No x_0 allowed");
+		Boolean result =  index > 0 ? assignment.get(index-1) : !assignment.get(Math.abs(index+1));
+		return result;
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public class CNFFormula {
 	 * @param indexVar
 	 */
 	public void toggleValue(int indexClause, int indexVar) {
-		int indexVarToChange = Math.abs(formula.get(indexClause).get(indexVar));
+		int indexVarToChange = Math.abs(formula.get(indexClause).get(indexVar)) -1;
 		assignment.set(indexVarToChange, !assignment.get(indexVarToChange));
 	}
 	

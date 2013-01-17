@@ -21,12 +21,13 @@ public class RandomSATSolver {
 	}
 	
 	public static Boolean isSatisfiable(CNFFormula formula, int n){
-		init(formula, n);
+		
 		Random random = new Random();
 		Boolean result = false;
 		int restarts = 0;
 		
 		while ( !result && restarts < 20 ) {
+			init(formula, n);
 			for (int i = 0;i < 3*n;i++){
 				// check if the assignment satisfies the problem, else get a random clause which is invalid
 				int clause = formula.checkValid();
@@ -42,6 +43,7 @@ public class RandomSATSolver {
 			}
 			restarts++;
 		}
+		log.trace("restarts for n "+n+": "+restarts);
 		if (!result)
 			log.trace( formula+" doesn't seem to be satisfieable" );
 		return result;

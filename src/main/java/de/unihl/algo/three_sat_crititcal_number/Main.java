@@ -36,8 +36,9 @@ public class Main {
 				for (int i=0;i<100;i++) {
 					StopWatch stopWatch = new Log4JStopWatch("m="+m);
 					
-					//CNFFormula formula = CNFFormula.generateRandom(n,m,k);
-					//satisfieable += RandomSATSolver.isSatisfiable(formula,n) ? 1 : 0;
+					CNFFormula formula = new CNFFormula(k);
+					formula.randomizeFormula(1, n, m);
+					satisfieable += RandomSATSolver.isSatisfiable(formula,n) ? 1 : 0;
 					
 					stopWatch.stop();
 				}

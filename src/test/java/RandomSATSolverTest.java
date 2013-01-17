@@ -24,24 +24,24 @@ public class RandomSATSolverTest {
 		Vector<Vector<Integer>> vec = new Vector<Vector<Integer>>();
 
 		Vector<Integer> c1 = new Vector<Integer>();
-		c1.add(0);
-		c1.add(-1);
-		c1.add(2);
+		c1.add(1);
+		c1.add(1);
+		c1.add(1);
 		vec.add(c1);
 		Vector<Integer> c2 = new Vector<Integer>();
-		c2.add(-0);
 		c2.add(-1);
-		c2.add(2);
+		c2.add(-1);
+		c2.add(-1);
 		vec.add(c2);
 		Vector<Integer> c3 = new Vector<Integer>();
-		c3.add(-0);
+		c3.add(-2);
 		c3.add(1);
 		c3.add(-2);
 		vec.add(c3);
 				
 		CNFFormula formula = new CNFFormula(vec, 3);
 		
-		assertTrue(RandomSATSolver.isSatisfiable(formula, 3));
+		assertFalse(RandomSATSolver.isSatisfiable(formula, 3));
 	}
 	
 	@Test

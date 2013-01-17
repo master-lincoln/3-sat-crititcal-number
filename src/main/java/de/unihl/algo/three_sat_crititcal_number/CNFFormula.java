@@ -153,7 +153,9 @@ public class CNFFormula {
 	public void randomizeFormula(int type, int num_variables ,int num_clauses){
 		initRandomVarBuffer(num_variables);		
 		
-		if (type != 1 && k<randomVarBuffer.size()) return;
+		formula.clear();
+		
+		if (type != 1 && k>randomVarBuffer.size()) return;
 		Random r = new Random();
 		Vector<Integer> removedVars = new Vector<Integer>();
 		

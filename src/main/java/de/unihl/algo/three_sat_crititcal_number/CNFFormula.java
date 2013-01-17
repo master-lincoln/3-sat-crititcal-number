@@ -40,6 +40,11 @@ public class CNFFormula {
 		assert(formula.get(0).size() == k);
 	}
 	
+	public CNFFormula(int k) {
+		// TODO Auto-generated constructor stub
+		this.k = k;
+	}
+	
 	public int getK(){
 		return this.k;
 	}
@@ -144,18 +149,17 @@ public class CNFFormula {
 	 * Creates a random CNF-Formula
 	 * @param type Distribution type ([i])
 	 * @param num_clauses Number of clauses (m)
-	 * @param num_literals Number of literals of one clause (k)
 	 */
-	public void randomizeFormula(int type, int num_variables ,int num_clauses,int num_literals){
+	public void randomizeFormula(int type, int num_variables ,int num_clauses){
 		initRandomVarBuffer(num_variables);		
 		
-		if (type != 1 && num_literals<randomVarBuffer.size()) return;
+		if (type != 1 && k<randomVarBuffer.size()) return;
 		Random r = new Random();
 		Vector<Integer> removedVars = new Vector<Integer>();
 		
 		for (int i=0; i<num_clauses; i++){
 			Vector<Integer> clause = new Vector<Integer>();
-			for (int j=0; j<num_literals; j++){
+			for (int j=0; j<k; j++){
 				Integer index = r.nextInt(randomVarBuffer.size());
 				Integer varID = randomVarBuffer.get(index);
 				clause.add(-r.nextInt(2)*varID);
@@ -170,6 +174,15 @@ public class CNFFormula {
 	}
 	
 	/**
+	 * Return the representation of the formula
+	 * @return the representation of the formula
+	 */
+	public Vector<Vector<Integer>> getFormula()
+	{
+		return formula;
+	}
+	
+	/**
 	 * Must called always, when the number of different variables changes
 	 * (Usually one call at start of the program).
 	 * @param num_vars number of different variables
@@ -178,7 +191,7 @@ public class CNFFormula {
 	{
 		if ( randomVarBuffer == null) {
 			CNFFormula.randomVarBuffer.clear();
-			for (int i=0; i<num_vars; i++){
+			for (int i=1; i<num_vars+1; i++){
 				CNFFormula.randomVarBuffer.add(i);
 			}
 		}

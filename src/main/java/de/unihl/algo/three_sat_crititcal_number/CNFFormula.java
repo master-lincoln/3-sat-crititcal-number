@@ -191,7 +191,7 @@ public class CNFFormula {
 	 * (Usually one call at start of the program).
 	 * @param num_vars number of different variables
 	 */
-	static public void initRandomVarBuffer(int num_vars)
+	private static void initRandomVarBuffer(int num_vars)
 	{
 		if (randomVarBuffer.size() != num_vars){
 				CNFFormula.randomVarBuffer.clear();

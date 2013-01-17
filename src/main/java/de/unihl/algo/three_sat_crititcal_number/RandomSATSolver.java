@@ -22,24 +22,28 @@ public class RandomSATSolver {
 	
 	public static Boolean isSatisfiable(CNFFormula formula, int n){
 		init(formula, n);
-		int k = formula.getK();
-		int clause = 0;
 		Random random = new Random();
 		Boolean result = false;
+		int restarts = 0;
 		
-		for (int i = 0;i < k*n;i++){
-			// check if the assignment satisfies the problem, else get a random clause which is invalid
-			clause = formula.checkValid();
-			//some clause is invalid
-			if (clause > -1){
-				//change a random variable from a random invalid clause
-				formula.toggleValue(clause, random.nextInt(k));
-			} else {
-				log.trace( formula+" is satisfied with assignment "+formula.getValues() );
-				result = true;
-				break;
+		while ( !result && restarts < 20 ) {
+			for (int i = 0;i < 3*n;i++){
+				// check if the assignment satisfies the problem, else get a random clause which is invalid
+				int clause = formula.checkValid();
+				//some clause is invalid
+				if (clause > -1){
+					//change a random variable from a random invalid clause
+					formula.toggleValue(clause, random.nextInt(formula.getK()));
+				} else {
+					log.trace( formula+" is satisfied with assignment "+formula.getValues() );
+					result = true;
+					break;
+				}
 			}
+			restarts++;
 		}
+		if (!result)
+			log.trace( formula+" doesn't seem to be satisfieable" );
 		return result;
 	}
 }

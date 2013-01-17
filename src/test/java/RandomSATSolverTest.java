@@ -44,6 +44,7 @@ public class RandomSATSolverTest {
 		assertTrue(RandomSATSolver.isSatisfiable(formula, 3));
 	}
 	
+	@Test
 	void testIsFormularCorrect(){
 		final int k = 3;
 		

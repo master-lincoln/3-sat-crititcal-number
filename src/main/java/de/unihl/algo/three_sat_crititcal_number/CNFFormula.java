@@ -189,7 +189,13 @@ public class CNFFormula {
 	 */
 	static public void initRandomVarBuffer(int num_vars)
 	{
-		if ( randomVarBuffer == null) {
+		boolean doResetBuffer = false;
+		if (randomVarBuffer != null){
+			if (randomVarBuffer.size() != num_vars){
+				doResetBuffer = true;
+			}
+		}
+		if ( randomVarBuffer == null || doResetBuffer) {
 			CNFFormula.randomVarBuffer.clear();
 			for (int i=1; i<num_vars+1; i++){
 				CNFFormula.randomVarBuffer.add(i);

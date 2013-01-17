@@ -51,7 +51,7 @@ public class RandomSATSolverTest {
 		CNFFormula cnff = new CNFFormula(k);
 		
 		int type = 1;
-		final int num_vars = 50;
+		final int num_vars = 10;
 		final int num_clauses = 5;
 		
 		cnff.randomizeFormula(type, num_vars, num_clauses);
@@ -63,16 +63,16 @@ public class RandomSATSolverTest {
 			iscorrect &= (form.get(i).size()==k);
 		}
 		
-		
-		
 		type = 2;
-		cnff.randomizeFormula(type, num_vars, num_clauses);
-		form = cnff.getFormula();
-		System.out.println(form);
-		
-		iscorrect &= (form.size()==5);
-		for (int i=0; i<num_clauses; i++){
-			iscorrect &= (form.get(i).size()==k);
+		for (int j=0; j<100; j++){
+			cnff.randomizeFormula(type, num_vars, num_clauses);
+			form = cnff.getFormula();
+			System.out.println(form);
+			
+			iscorrect &= (form.size()==5);
+			for (int i=0; i<num_clauses; i++){
+				iscorrect &= (form.get(i).size()==k);
+			}
 		}
 		
 		assertTrue(iscorrect);

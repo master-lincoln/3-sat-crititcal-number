@@ -162,7 +162,9 @@ public class CNFFormula {
 			for (int j=0; j<k; j++){
 				Integer index = r.nextInt(randomVarBuffer.size());
 				Integer varID = randomVarBuffer.get(index);
-				clause.add(-r.nextInt(2)*varID);
+				int hvarID = varID; 
+				if (r.nextInt(2)==0) hvarID = -hvarID;
+				clause.add(hvarID);
 				if (type != 1){
 					randomVarBuffer.remove(index);
 					removedVars.add(varID);					

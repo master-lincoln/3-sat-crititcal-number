@@ -10,4 +10,9 @@ This also downloads the needed dependencies at the first time.
 
 
 To start the program outside an IDE use
- ``java -jar target/3-sat-crititcal-number-0.0.1-SNAPSHOT-jar-with-dependencies.jar ``
+For i=1 and i=2
+ ``java -jar distribute/3-sat-crititcal-number-0.0.1-SNAPSHOT-jar-with-dependencies-both.jar ``
+ For i=1
+ ``java -jar distribute/3-sat-crititcal-number-0.0.1-SNAPSHOT-jar-with-dependencies-first.jar ``
+ For i=2
+ ``java -jar distribute/3-sat-crititcal-number-0.0.1-SNAPSHOT-jar-with-dependencies-second.jar ``

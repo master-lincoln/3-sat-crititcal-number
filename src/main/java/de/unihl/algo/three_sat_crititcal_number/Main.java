@@ -2,7 +2,9 @@ package de.unihl.algo.three_sat_crititcal_number;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.perf4j.StopWatch;
 import org.perf4j.log4j.Log4JStopWatch;
@@ -16,25 +18,30 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		log = Logger.getRootLogger();
+		log.setLevel(Level.DEBUG);
 		
 		long t_avg = 0;
 		int n = 9;
+		int bestM  = 40;
 		
 		// TODO für beide Verteilungen i
 		while ( t_avg < 3000 ) {
 			n += 1;
 			// empirical probability for each m
-			Map<Integer,Double> sigmas = new HashMap<Integer, Double>();
+			Map<Integer,Double> sigmas = new TreeMap<Integer, Double>();
 			t_avg = 0;
 			
-			// TODO more clever testing of m
-			for (int m=40; m<80; m++) {
-				StopWatch avgStopWatch = new Log4JStopWatch("full.n="+n+".m="+m);
+			// values obtained by testing
+			int start = (int) (4*n);
+			int end = (int) (5*n);
+			
+			for (int m=start; m<end; m++) {
+				StopWatch avgStopWatch = new Log4JStopWatch("full.n"+n+".m"+m);
 				int satisfieable = 0;
 				
 				// 100 times
 				for (int i=0;i<100;i++) {
-					StopWatch stopWatch = new Log4JStopWatch("n="+n+".m="+m);
+					StopWatch stopWatch = new Log4JStopWatch("n"+n+".m"+m);
 					
 					CNFFormula formula = new CNFFormula(k);
 					formula.randomizeFormula(1, n, m);
@@ -42,13 +49,17 @@ public class Main {
 					
 					stopWatch.stop();
 				}
+				
 				sigmas.put(m, (double)satisfieable/100);
 				
 				avgStopWatch.stop();
-				t_avg = avgStopWatch.getElapsedTime()/100;
+				long this_avg = avgStopWatch.getElapsedTime()/100;
+				t_avg = t_avg < this_avg ? this_avg : t_avg;
 			}
 			
-			int bestM = getBestM(sigmas, n);
+			
+			log.debug(sigmas);
+			bestM = getBestM(sigmas, n);
 			
 		}
 		// n = n_max at this point

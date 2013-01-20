@@ -2,7 +2,6 @@ package de.unihl.algo.three_sat_crititcal_number;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,7 +21,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		log = Logger.getRootLogger();
-		log.setLevel(Level.DEBUG);
+		log.setLevel(Level.INFO);
 		
 		long t_avg = 0;
 		int n = 9;

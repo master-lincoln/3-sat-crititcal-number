@@ -24,11 +24,12 @@ public class Main {
 		log.setLevel(Level.INFO);
 		
 		long t_avg = 0;
-		int n = 9;
+		
 		int bestM  = 40;
 		
 		for (int i=1; i<3; i++) {
 			log.info("Starting tests for distribution i="+i);
+			int n = 9;
 			
 			while ( t_avg < 3000 ) {
 				n += 1;

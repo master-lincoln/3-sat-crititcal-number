@@ -60,7 +60,7 @@ public class Main {
 					t_avg = t_avg < this_avg ? this_avg : t_avg;
 				}
 				
-				
+				log.info("Current average time for a run: "+t_avg);
 				log.debug(sigmas);
 				bestM = getBestM(sigmas, n);
 				

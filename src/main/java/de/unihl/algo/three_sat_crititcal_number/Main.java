@@ -110,7 +110,7 @@ public class Main {
 		for ( Integer m : sigmas.keySet() ) {
 			double curVal = sigmas.get(m);
 			// first run or newer value is nearer to 0.5 --> take this m
-			if ( bestM == -1 || Math.abs(0.5-curVal) < Math.abs(0.5-bestValue) ) {
+			if ( bestM == -1 || 0.5-Math.abs(curVal) < 0.5-Math.abs(bestValue) ) {
 				bestM = m;
 				bestValue = curVal;
 			}

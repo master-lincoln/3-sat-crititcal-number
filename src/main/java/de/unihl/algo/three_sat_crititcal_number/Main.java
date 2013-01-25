@@ -38,7 +38,7 @@ public class Main {
 				t_avg = 0;
 				
 				// values obtained by testing
-				int start = (int) (4*n);
+				int start = bestM;
 				int end = (int) (5*n);
 				
 				for (int m=start; m<end; m++) {

@@ -23,26 +23,30 @@ public class Main {
 		log = Logger.getRootLogger();
 		log.setLevel(Level.INFO);
 		
-		long t_avg = 0;
-		
-		int bestM  = 40;
-		
-		for (int i=1; i<3; i++) {
+		for (int i=2; i<3; i++) {
 			log.info("Starting tests for distribution i="+i);
+			Map<Integer, Integer> results = new TreeMap<Integer, Integer>();
+			// start parameter for the number of variables
 			int n = 9;
+			// lower bound for first n
+			int bestM  = 40;
+			long t_avg = 0;
 			
 			while ( t_avg < 3000 ) {
 				n += 1;
 				// empirical probability for each m
 				Map<Integer,Double> sigmas = new TreeMap<Integer, Double>();
 				t_avg = 0;
+				double currentSigma = 0;
 				
-				// values obtained by testing
-				int start = bestM;
-				int end = (int) (5*n);
-				
-				for (int m=start; m<end; m++) {
+				// the new bestM will not be smaller than the previous
+				int m = bestM;
+				// we search until we are within the error epsilon
+				double epsilon = 0.03;
+
+				while ( Math.abs(currentSigma-0.5) > epsilon ) {
 					StopWatch avgStopWatch = new Log4JStopWatch("full.n"+n+".m"+m);
+					// number of experimentally satisfied clauses
 					int satisfieable = 0;
 					
 					// 100 times
@@ -53,19 +57,22 @@ public class Main {
 						satisfieable += RandomSATSolver.isSatisfiable(formula,n) ? 1 : 0;
 						
 					}
-					
-					sigmas.put(m, (double)satisfieable/100);
+					currentSigma = (double)satisfieable/100;
+					sigmas.put(m, currentSigma);
 					
 					avgStopWatch.stop();
 					long this_avg = avgStopWatch.getElapsedTime()/100;
 					t_avg = t_avg < this_avg ? this_avg : t_avg;
+					
+					m += 1;
 				}
 				
 				log.info("Current average time for a run: "+t_avg);
 				log.debug(sigmas);
 				bestM = getBestM(sigmas, n);
-				
+				results.put(n, bestM);
 			}
+			createCSV("M values for i="+i, results);
 			
 			// Task B
 			// n = n_max at this point with corresponding bestM
@@ -94,7 +101,7 @@ public class Main {
 		
 	}
 	
-	private static void createCSV(String filename, Map<Integer, Double> sigmas) throws IOException {
+	private static void createCSV(String filename, Map<Integer, ? extends Number> sigmas) throws IOException {
 		CSVWriter writer = new CSVWriter(new FileWriter(filename+".csv"), '\t');
 		for ( int m : sigmas.keySet() ) {
 			String[] entries = { String.valueOf(m), String.valueOf(sigmas.get(m)) };

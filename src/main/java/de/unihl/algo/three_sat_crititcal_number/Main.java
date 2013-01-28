@@ -42,9 +42,9 @@ public class Main {
 				// the new bestM will not be smaller than the previous
 				int m = bestM;
 				// we search until we are within the error epsilon
-				double epsilon = 0.03;
+				double epsilon = 0.02;
 
-				while ( Math.abs(currentSigma-0.5) > epsilon ) {
+				while ( Math.abs(currentSigma-0.5) > epsilon && m<5*n) {
 					StopWatch avgStopWatch = new Log4JStopWatch("full.n"+n+".m"+m);
 					// number of experimentally satisfied clauses
 					int satisfieable = 0;
